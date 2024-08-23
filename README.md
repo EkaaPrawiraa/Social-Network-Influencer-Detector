@@ -26,22 +26,29 @@ Frontend
 Here’s an overview of the program structure:
 
  ```bash
-/project-root
+/Social-Network-Influencer-Detector
 |-- /backend
-|   |-- /controllers
-|   |-- /models
-|   |-- /routes
-|   |-- /services
-|   |-- /config
-|   |-- index.js
+|   |-- /src
+|   	|-- /controllers
+|   	|-- /models
+|   	|-- /routes
+|   	|-- /services
+|   	|-- /config
+|   |-- server.js
+|   |-- app.js
+|   |-- .env
 |-- /frontend
-|   |-- /components
-|   |-- /pages
-|   |-- /utils
+|   |-- /src
+|	|-- /assets
+|   	|-- /components
+|		|-- /layout
+|   	|-- /pages
+|   	|-- /utils
 |   |-- App.js
+|   |-- index.js
 |-- README.md
 |-- package.json
-|-- .env
+
 ```
 
 ## [Backend] Algorithm Components
@@ -81,26 +88,26 @@ The Eigenvector Centrality algorithm is applied to detect influencers by evaluat
 	•	Results: Users are ranked based on their influence scores, helping to identify the most influential users.
 
 **Algorithm Analysis**
+Time Complexity: The time complexity primarily depends on the matrix multiplication and eigenvalue computation. For large matrices, algorithms like power iteration or Lanczos method are often used, which can be more efficient than direct computation. Generally, matrix operations have a time complexity of  O(n^3)  for dense matrices, where  n  is the number of nodes.
+Space Complexity: The space complexity is  O(n^2)  for storing the adjacency matrix and  O(n)  for the eigenvector. Sparse matrix representations can reduce space requirements.
 
 
 
 ## [Frontend] Frontend Components
 
 **How to Run the Program**
-
-	1.	Clone the repository: git clone <repository-url>
-	2.	Navigate to the frontend directory: cd frontend
-	3.	Install dependencies: npm install
-	4.	Start the application: npm start
- 5.	Open the website's frontend on : localhost:3000
+- Clone the repository: git clone <repository-url>
+- Navigate to the frontend directory: cd frontend
+- Install dependencies: npm install
+- Start the application: npm start
+- Open the website's frontend on : localhost:3000
 
 
 **List of Created Pages and Their Purposes**
-
-	•	Dashboard Page : Shows top 10 users based on its calculations
-	•	User Management Page: Allows users CRUD the list of existing users from the database
-	•	Tweet Management Page: Allows users CRUD the list of existing tweets from the database
-	•	Graph Visualization Page : Show users the visualization of every user's relationship
+- Dashboard Page : Shows top 10 users based on its calculations
+- User Management Page: Allows users CRUD the list of existing users from the database
+- Tweet Management Page: Allows users CRUD the list of existing tweets from the database
+- Graph Visualization Page : Show users the visualization of every user's relationship
 
 ## Screenshots
 
@@ -110,12 +117,12 @@ The Eigenvector Centrality algorithm is applied to detect influencers by evaluat
 
 **How to Run the Program**
 
-	1.	Clone the repository: git clone <repository-url>
-	2.	Navigate to the backend directory: cd backend
-	3.	Install dependencies: npm install
-	4.	Set up environment variables in a .env file.
-	5.	Start the server: npm start
- 6.	Open the website's backend on : localhost:5001
+- Clone the repository: git clone <repository-url>
+- Navigate to the backend directory: cd backend
+- Install dependencies: npm install
+- Set up environment variables in a .env file.
+- Start the server: npm start
+- Open the website's backend on : localhost:5001
 
 **List of Created Endpoints**
 
@@ -126,7 +133,7 @@ The Eigenvector Centrality algorithm is applied to detect influencers by evaluat
 
 **DBMS Used**
 
-	•	Database Management System (DBMS): MySQL
+- Database Management System (DBMS): MySQL
 
 **Entity Relationship Diagram (ERD)**
 
