@@ -111,7 +111,24 @@ Space Complexity: The space complexity is  O(n^2)  for storing the adjacency mat
 
 ## Screenshots
 
-
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+    <div style="margin: 10px;">
+        <img src="img/dashboard.png" alt="Filtering Feature" style="width: 200px; height: auto;">
+        <p>Dashboard Page</p>
+    </div>
+    <div style="margin: 10px;">
+        <img src="img/graph.png" alt="Searching Feature" style="width: 200px; height: auto;">
+        <p>Graph Visualization</p>
+    </div>
+    <div style="margin: 10px;">
+        <img src="img/tweet.png" alt="Settings Page" style="width: 200px; height: auto;">
+        <p>Tweets Management</p>
+    </div>
+    <div style="margin: 10px;">
+        <img src="img/user.png"  style="width: 200px; height: auto;">
+        <p>Users Management Page</p>
+    </div>
+</div>
 
 ## [Backend] Backend Components
 
@@ -126,6 +143,66 @@ Space Complexity: The space complexity is  O(n^2)  for storing the adjacency mat
 
 **List of Created Endpoints**
 
+Tweets
+	1.	Get All Tweets
+	•	Endpoint: GET /tweets
+	•	Description: Retrieves all tweets from the database.
+	•	Response: JSON array of tweets.
+	2.	Get All Tweets with User Information
+	•	Endpoint: GET /tweetswithuser
+	•	Description: Retrieves all tweets along with associated user information.
+	•	Response: JSON array of tweets with user details.
+	3.	Get Tweet by ID
+	•	Endpoint: GET /tweets/:id
+	•	Description: Fetches a specific tweet by its unique ID.
+	•	Response: JSON object of the tweet, or 404 if not found.
+	4.	Get Tweets by User ID
+	•	Endpoint: GET /tweets/user/:user_id
+	•	Description: Retrieves all tweets posted by a specific user.
+	•	Response: JSON array of tweets by the specified user, or 404 if not found.
+	5.	Create a New Tweet
+	•	Endpoint: POST /tweets
+	•	Description: Creates a new tweet with the provided details.
+	•	Request Body: JSON object with user_id, content, likes_count, retweets_count, replied_to_tweet_id, and created_at.
+	•	Response: JSON object of the newly created tweet.
+	6.	Update an Existing Tweet
+	•	Endpoint: PUT /tweets/:id
+	•	Description: Updates the details of an existing tweet by its ID.
+	•	Request Body: JSON object with user_id, content, likes_count, retweets_count, and replied_to_tweet_id.
+	•	Response: JSON object of the updated tweet.
+	7.	Delete a Tweet
+	•	Endpoint: DELETE /tweets/:id
+	•	Description: Deletes a specific tweet by its ID.
+	•	Response: Status 204 if successfully deleted, or 404 if tweet not found.
+
+Users
+
+	1.	Get All Users
+	•	Endpoint: GET /users
+	•	Description: Retrieves all users from the database.
+	•	Response: JSON array of users.
+	2.	Get All Users with Tweets
+	•	Endpoint: GET /userstweets
+	•	Description: Retrieves all users along with their tweets.
+	•	Response: JSON array of users with associated tweets.
+	3.	Get User by ID
+	•	Endpoint: GET /users/:id
+	•	Description: Fetches a specific user by their unique ID.
+	•	Response: JSON object of the user, or 404 if not found.
+	4.	Create a New User
+	•	Endpoint: POST /users
+	•	Description: Creates a new user with the provided details.
+	•	Request Body: JSON object with username, followers_count, and joined_date.
+	•	Response: JSON object of the newly created user.
+	5.	Update an Existing User
+	•	Endpoint: PUT /users/:id
+	•	Description: Updates the details of an existing user by their ID.
+	•	Request Body: JSON object with username, followers_count, and joined_date.
+	•	Response: JSON object of the updated user.
+	6.	Delete a User
+	•	Endpoint: DELETE /users/:id
+	•	Description: Deletes a specific user by their ID.
+	•	Response: Status 204 if successfully deleted, or 404 if user not found.
 
 
 

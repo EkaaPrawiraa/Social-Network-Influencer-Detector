@@ -21,10 +21,6 @@ function HeaderWrapper() {
 function App() {
 	const [userArray, setUserArray] = useState([]);
 	const [tweetArray, setTweetArray] = useState([]);
-	
-	
-
-	
 
 	useEffect(() => {
 		const fetchUsers = async () => {
