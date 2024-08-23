@@ -212,7 +212,9 @@ Users
 
 - Database Management System (DBMS): MySQL
 
-**Entity Relationship Diagram (ERD)**
-
+**Database**
+![alt text](img/db.png)
 
 **Learning References**
+![youtube](https://www.youtube.com/watch?v=2bLD7yvy6jQ)
+![youtube](https://www.youtube.com/watch?v=-LO9NLaccFQ)
