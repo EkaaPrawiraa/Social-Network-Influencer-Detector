@@ -11,7 +11,6 @@ function calculateInfluenceFactor(users, tweets) {
 		const repliedToTweetId = tweet.replied_to_tweet_id
 			? tweet.replied_to_tweet_id
 			: null;
-
 		if (repliedToTweetId) {
 			const repliedToTweet = tweets.find(
 				(t) => t.tweet_id === repliedToTweetId
@@ -22,7 +21,6 @@ function calculateInfluenceFactor(users, tweets) {
 			}
 		}
 	});
-
 	const influenceFactors = {};
 	users.forEach((user) => {
 		const followersCount = user.followers_count;
@@ -53,10 +51,8 @@ function calculateInfluenceFactor(users, tweets) {
 					(sum, value) => sum + (value || 0),
 					0
 				);
-
 		influenceFactors[user.user_id] = influenceFactor;
 	});
-
 	const eigenvectorValues = {};
 	users.forEach((user) => {
 		let sum = 0;
@@ -70,19 +66,15 @@ function calculateInfluenceFactor(users, tweets) {
 
 		eigenvectorValues[user.user_id] = sum;
 	});
-
 	const values = Object.values(eigenvectorValues);
 	const min = Math.min(...values);
 	const max = Math.max(...values);
-
 	const normalizedEigenvectorValues = {};
 	users.forEach((user) => {
 		const value = eigenvectorValues[user.user_id];
 		const normalizedValue = (value - min) / (max - min);
 		normalizedEigenvectorValues[user.user_id] = normalizedValue;
 	});
-
-	console.log("Normalized Eigenvector Values", normalizedEigenvectorValues);
 	return normalizedEigenvectorValues;
 }
 
