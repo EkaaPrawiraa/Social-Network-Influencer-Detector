@@ -4,9 +4,6 @@ import {
 	Toolbar,
 	Typography,
 	Box,
-	Button,
-	Badge,
-	IconButton,
 } from "@mui/material";
 import { FaTwitter } from "react-icons/fa";
 

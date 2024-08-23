@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaTwitter } from "react-icons/fa";
 import {
 	Box,
 	Button,
@@ -114,9 +113,9 @@ const TweetManagement = ({ SetTweet }) => {
 				const response = await axios.post("http://localhost:5001/api/tweets", {
 					user_id: userId,
 					content: content,
-					likes_count: likesCount == "" ? 0 : likesCount,
-					retweets_count: retweetCount == "" ? 0 : retweetCount,
-					replied_to_tweet_id: repliedToTweetId == "" ? null : repliedToTweetId,
+					likes_count: likesCount === "" ? 0 : likesCount,
+					retweets_count: retweetCount === "" ? 0 : retweetCount,
+					replied_to_tweet_id: repliedToTweetId === "" ? null : repliedToTweetId,
 					created_at: createdAt,
 				});
 				setTweets([...tweets, response.data]);
@@ -137,7 +136,7 @@ const TweetManagement = ({ SetTweet }) => {
 						likes_count: likesCount,
 						retweets_count: retweetCount,
 						replied_to_tweet_id:
-							repliedToTweetId == "" ? null : repliedToTweetId,
+							repliedToTweetId === "" ? null : repliedToTweetId,
 					}
 				);
 				setTweets(

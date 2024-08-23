@@ -4,13 +4,12 @@ import {
 	Routes,
 	useLocation,
 } from "react-router-dom";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import UserManagement from "./pages/UserManagement";
 import TweetManagement from "./pages/TweetManagement";
 import Header from "./components/Layout/Header";
 import Dashboard from "./pages/Dashboard";
-import calculateInfluenceFactor from "./utils/eigenvector";
 import Footer from "./components/Layout/Footer";
 import GraphVisualization from "./pages/GraphVisualization";
 import NotFound from "./pages/NotFound";
@@ -22,7 +21,7 @@ function HeaderWrapper() {
 function App() {
 	const [userArray, setUserArray] = useState([]);
 	const [tweetArray, setTweetArray] = useState([]);
-	const [loading, setLoading] = useState(true); 
+	
 	
 
 	

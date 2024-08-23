@@ -1,11 +1,10 @@
 import React from "react";
-import { AppBar, Toolbar, Button, Box } from "@mui/material";
+import { AppBar, Toolbar, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PersonIcon from "@mui/icons-material/Person";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
-import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
 	return (
