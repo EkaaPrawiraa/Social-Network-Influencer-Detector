@@ -144,6 +144,7 @@ Space Complexity: The space complexity is  O(n^2)  for storing the adjacency mat
 **List of Created Endpoints**
 
 Tweets
+```bash
 	1.	Get All Tweets
 	•	Endpoint: GET /tweets
 	•	Description: Retrieves all tweets from the database.
@@ -174,9 +175,9 @@ Tweets
 	•	Endpoint: DELETE /tweets/:id
 	•	Description: Deletes a specific tweet by its ID.
 	•	Response: Status 204 if successfully deleted, or 404 if tweet not found.
-
+```
 Users
-
+```bash
 	1.	Get All Users
 	•	Endpoint: GET /users
 	•	Description: Retrieves all users from the database.
@@ -205,7 +206,7 @@ Users
 	•	Response: Status 204 if successfully deleted, or 404 if user not found.
 
 
-
+```
 ## [Backend] Database Components
 
 **DBMS Used**
@@ -216,5 +217,5 @@ Users
 ![alt text](img/db.png)
 
 **Learning References**
-![youtube](https://www.youtube.com/watch?v=2bLD7yvy6jQ)
-![youtube](https://www.youtube.com/watch?v=-LO9NLaccFQ)
+[Watch video 1](https://www.youtube.com/watch?v=2bLD7yvy6jQ)
+[Watch video 2](https://www.youtube.com/watch?v=-LO9NLaccFQ)
