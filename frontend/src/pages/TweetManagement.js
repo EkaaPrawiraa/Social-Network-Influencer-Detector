@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FaTwitter } from "react-icons/fa";
 import {
 	Box,
 	Button,
 	TextField,
 	Typography,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -18,9 +13,18 @@ import {
 	IconButton,
 	Snackbar,
 	Alert,
+	Avatar,
+	Grid,
+	Link,
+	Badge,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import '@fontsource/playfair-display';
+
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ReplyIcon from "@mui/icons-material/Reply";
+import RetweetIcon from "@mui/icons-material/Repeat";
+
+import AddIcon from "@mui/icons-material/Add";
 
 const TweetManagement = ({ SetTweet }) => {
 	const [tweets, setTweets] = useState([]);
@@ -59,7 +63,9 @@ const TweetManagement = ({ SetTweet }) => {
 
 	const fetchTweets = async () => {
 		try {
-			const response = await axios.get("http://localhost:5001/api/tweets");
+			const response = await axios.get(
+				"http://localhost:5001/api/tweetswithuser"
+			);
 			setTweets(response.data);
 		} catch (error) {
 			console.error("Error fetching tweets:", error);
@@ -106,14 +112,12 @@ const TweetManagement = ({ SetTweet }) => {
 		if (dialogType === "add") {
 			try {
 				const response = await axios.post("http://localhost:5001/api/tweets", {
-					tweet_id: idTweet,
 					user_id: userId,
 					content: content,
-					likes_count: likesCount,
-					retweets_count: retweetCount,
-					replied_to_tweet_id: repliedToTweetId == '' ? null: repliedToTweetId,
-                    created_at: createdAt,
-					
+					likes_count: likesCount == "" ? 0 : likesCount,
+					retweets_count: retweetCount == "" ? 0 : retweetCount,
+					replied_to_tweet_id: repliedToTweetId == "" ? null : repliedToTweetId,
+					created_at: createdAt,
 				});
 				setTweets([...tweets, response.data]);
 				setSnackbarMessage("Tweet added successfully");
@@ -128,12 +132,12 @@ const TweetManagement = ({ SetTweet }) => {
 				const response = await axios.put(
 					`http://localhost:5001/api/tweets/${editingTweet.tweet_id}`,
 					{
-                        user_id: userId,
+						user_id: userId,
 						content: content,
 						likes_count: likesCount,
 						retweets_count: retweetCount,
-						replied_to_tweet_id: repliedToTweetId == '' ? null: repliedToTweetId,
-						
+						replied_to_tweet_id:
+							repliedToTweetId == "" ? null : repliedToTweetId,
 					}
 				);
 				setTweets(
@@ -171,119 +175,237 @@ const TweetManagement = ({ SetTweet }) => {
 		setSnackbarOpen(false);
 	};
 
+	function formatNumber(num) {
+		if (num >= 1000000) {
+			return (num / 1000000).toFixed(1) + "M";
+		} else if (num >= 1000) {
+			return (num / 1000).toFixed(1) + "K";
+		} else {
+			return num.toString();
+		}
+	}
+
 	return (
 		<Box
 			sx={{
+				height: "60vh",
+				overflowY: "auto",
+				width: "100%",
 				padding: "2rem",
-				backgroundColor: "#f4f4f4",
-				borderRadius: "8px",
-				boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-				maxWidth: "1200px",
+				// background: "linear-gradient(135deg, #1a1a2e, #16213e)",
+				borderRadius: "16px",
+				boxShadow: "0 10px 20px rgba(0, 0, 0, 0.5)",
+				maxWidth: "100%",
 				margin: "auto",
+				"&::-webkit-scrollbar": {
+					display: "none",
+				},
+				"-ms-overflow-style": "none",
+				"scrollbar-width": "none",
+				transition: "transform 0.2s ease-in-out",
+				
 			}}
 		>
-			<Typography variant="h4" component="h1" gutterBottom align="center">
-				<b>Tweet Management</b>
-			</Typography>
 			<Box
 				sx={{
-					overflowX: "auto",
+					
 					marginBottom: "1rem",
 				}}
 			>
-				<TableContainer
-					sx={{
-						backgroundColor: "white",
-						borderRadius: "8px",
-						boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-					}}
-				>
-					<Table>
-						<TableHead>
-							<TableRow>
-								<TableCell sx={{ textAlign: "center" }}>ID</TableCell>
-								<TableCell sx={{ textAlign: "center" }}>UserID</TableCell>
-								<TableCell sx={{ textAlign: "center" }}>Content</TableCell>
-								<TableCell sx={{ textAlign: "center" }}>Likes</TableCell>
-								<TableCell sx={{ textAlign: "center" }}>
-									Retweet Count
-								</TableCell>
-								<TableCell sx={{ textAlign: "center" }}>
-									Replied to Tweet ID
-								</TableCell>
-								<TableCell sx={{ textAlign: "center" }}>Created At</TableCell>
-								<TableCell sx={{ textAlign: "center" }}>Actions</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{tweets.map((tweet) => (
-								<TableRow key={tweet.tweet_id}>
-									<TableCell sx={{ textAlign: "center" }}>
-										{tweet.tweet_id}
-									</TableCell>
-									<TableCell sx={{ textAlign: "center" }}>
-										{tweet.user_id}
-									</TableCell>
-									<TableCell sx={{ textAlign: "center" }}>
-										{tweet.content}
-									</TableCell>
-									<TableCell sx={{ textAlign: "center" }}>
-										{tweet.likes_count || 0}
-									</TableCell>
-									<TableCell sx={{ textAlign: "center" }}>
-										{tweet.retweets_count || 0}
-									</TableCell>
-									<TableCell sx={{ textAlign: "center" }}>
-										{tweet.replied_to_tweet_id || 0}
-									</TableCell>
-									<TableCell sx={{ textAlign: "center" }}>
-										{tweet.created_at.substring(0, 10)}
-									</TableCell>
-									<TableCell sx={{ textAlign: "center" }}>
-										<IconButton onClick={() => handleOpenDialog("edit", tweet)}>
-											<EditIcon color="primary" />
-										</IconButton>
-										<IconButton
-											onClick={() => handleDeleteTweet(tweet.tweet_id)}
-										>
-											<DeleteIcon color="error" />
-										</IconButton>
-									</TableCell>
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</TableContainer>
+				{tweets.map((tweet) => (
+					<Box
+						key={tweet.tweet_id}
+						sx={{
+							marginBottom: "1rem",
+							background: "linear-gradient(135deg, #000000, #434343)",
+							border: "3px solid rgba(255, 255, 255, 0.1)",
+							borderRadius: "12px",
+							boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
+							padding: "1.5rem",
+							transition: "transform 0.2s ease-in-out",
+							"&:hover": {
+								transform: "scale(1.03)",
+							},
+						}}
+					>
+						<Grid container alignItems="center">
+							<Grid item xs={1}>
+								<Avatar
+									alt="User Avatar"
+									src={`https://picsum.photos/200/300?random=${tweet.user_id}`}
+									sx={{
+										width: "5rem",
+										height: "5rem",
+										marginRight: "1rem",
+										border: "2px solid #00a8cc",
+										boxShadow: "0 0 15px rgba(0, 168, 204, 0.7)",
+										transition: "box-shadow 0.3s ease-in-out",
+										"&:hover": {
+											boxShadow: "0 0 25px rgba(0, 168, 204, 1)",
+										},
+									}}
+								/>
+							</Grid>
+							<Grid item xs={9}>
+								<Typography variant="subtitle1" sx={{ color: "#fff" }}>
+									<Link
+										href="#"
+										sx={{ color: "#00a8cc", textDecoration: "none",fontFamily: "'Playfair Display', serif", }}
+									>
+										{`@${tweet.username}`}
+									</Link>
+								</Typography>
+								<Typography variant="caption" color="rgba(255, 255, 255, 0.6)">
+									TweetID: {tweet.tweet_id}
+								</Typography>
+								<Typography
+									variant="h5"
+									color="#ffffff"
+									fontFamily="Segoe UI, Arial, sans-serif"
+									fontSize="18px"
+									fontWeight="bold"
+									sx={{
+										marginTop: "0.5rem",
+										transition: "color 0.3s ease-in-out",
+										"&:hover": {
+											color: "#00a8cc",
+										},
+									}}
+								>
+									{tweet.content}
+								</Typography>
+								<Typography variant="caption" color="rgba(255, 255, 255, 0.6)">
+									{tweet.created_at.substring(0, 10)}
+								</Typography>
+								<Grid item xs={9} sx={{ marginTop: "0.5rem" }}>
+									<Typography
+										variant="caption"
+										color="textSecondary"
+										onClick={() => handleOpenDialog("edit", tweet)}
+										sx={{
+											paddingRight: "5px",
+											cursor: "pointer",
+											color: "rgba(255, 255, 255, 0.8)",
+											"&:hover": {
+												color: "#00a8cc",
+											},
+										}}
+									>
+										<u>
+											<i>Edit</i>
+										</u>
+									</Typography>
+									<Typography
+										variant="caption"
+										color="textSecondary"
+										onClick={() => handleDeleteTweet(tweet.tweet_id)}
+										sx={{
+											cursor: "pointer",
+											color: "rgba(255, 0, 0, 0.8)",
+											"&:hover": {
+												color: "rgba(255, 0, 0, 1)",
+											},
+										}}
+									>
+										<u>
+											<i>Delete</i>
+										</u>
+									</Typography>
+								</Grid>
+							</Grid>
+							<Grid item xs={2} textAlign="right">
+								<IconButton aria-label="reply" size="small">
+									<Badge
+										badgeContent={tweet.replied_to_tweet_id}
+										color="error"
+										anchorOrigin={{
+											vertical: "top",
+											horizontal: "right",
+										}}
+										sx={{
+											"& .MuiBadge-dot": {
+												borderRadius: "50%",
+												width: "10px",
+												height: "10px",
+												backgroundColor: "red",
+											},
+										}}
+									>
+										<ReplyIcon sx={{ fontSize: 40, color: "white" }} />
+									</Badge>
+								</IconButton>
+								<IconButton aria-label="retweet" size="small">
+									<Badge
+										badgeContent={formatNumber(tweet.retweets_count)}
+										color="error"
+										anchorOrigin={{
+											vertical: "top",
+											horizontal: "right",
+										}}
+										sx={{
+											"& .MuiBadge-dot": {
+												borderRadius: "50%",
+												width: "10px",
+												height: "10px",
+												backgroundColor: "red",
+											},
+										}}
+									>
+										<RetweetIcon sx={{ fontSize: 40, color: "white" }} />
+									</Badge>
+								</IconButton>
+								<IconButton aria-label="like" size="small">
+									<Badge
+										badgeContent={formatNumber(tweet.likes_count)}
+										color="error"
+										anchorOrigin={{
+											vertical: "top",
+											horizontal: "right",
+										}}
+										sx={{
+											"& .MuiBadge-dot": {
+												borderRadius: "50%",
+												width: "10px",
+												height: "10px",
+												backgroundColor: "red",
+											},
+										}}
+									>
+										<FavoriteBorderIcon sx={{ fontSize: 40, color: "white" }} />
+									</Badge>
+								</IconButton>
+							</Grid>
+						</Grid>
+					</Box>
+				))}
 			</Box>
+
 			<Box
 				sx={{
 					display: "flex",
-					justifyContent: "center",
+					justifyContent: "flex-end",
 					marginTop: "1rem",
 				}}
 			>
-				<Button
+				<IconButton
 					variant="contained"
 					color="primary"
 					onClick={() => handleOpenDialog("add")}
+					sx={{
+						backgroundColor: "white",
+						width: "3rem",
+						height: "3rem",
+						fontSize: "2rem",
+					}}
 				>
-					Add Tweet
-				</Button>
+					<AddIcon sx={{ fontSize: "2rem" }} />
+				</IconButton>
 			</Box>
 			<Dialog open={showDialog} onClose={handleCloseDialog}>
 				<DialogTitle>
 					{dialogType === "add" ? "Add Tweet" : "Edit Tweet"}
 				</DialogTitle>
 				<DialogContent>
-					<TextField
-						margin="dense"
-						label="ID"
-						type="number"
-						fullWidth
-						value={idTweet}
-						onChange={(e) => setIdTweet(e.target.value)}
-						disabled={dialogType === "edit"}
-					/>
 					<TextField
 						margin="dense"
 						label="User ID"

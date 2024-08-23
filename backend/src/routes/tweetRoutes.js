@@ -11,6 +11,15 @@ router.get('/tweets', async (req, res) => {
     }
 });
 
+router.get('/tweetswithuser', async (req, res) => {
+    try {
+        const allTweets = await tweets.getAllwithUser();
+        res.json(allTweets);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch tweets' });
+    }
+});
+
 
 router.get('/tweets/:id', async (req, res) => {
     try {
@@ -42,9 +51,9 @@ router.get('/tweets/user/:user_id', async (req, res) => {
 
 router.post('/tweets', async (req, res) => {
     try {
-        const { tweet_id,user_id, content, likes_count,retweets_count, replied_to_tweet_id,created_at } = req.body;
+        const {user_id, content, likes_count,retweets_count, replied_to_tweet_id,created_at } = req.body;
         console.log(req.body);
-        const newTweet = await tweets.create(tweet_id, user_id, content, likes_count,retweets_count, replied_to_tweet_id,created_at);
+        const newTweet = await tweets.create( user_id, content, likes_count,retweets_count, replied_to_tweet_id,created_at);
         res.status(201).json(newTweet);
     } catch (error) {
         res.status(500).json({ error: 'Failed to create tweet' });

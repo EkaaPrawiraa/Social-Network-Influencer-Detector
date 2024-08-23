@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaTwitter } from "react-icons/fa";
+import PersonIcon from "@mui/icons-material/Person";
 import {
 	Box,
 	Button,
@@ -19,10 +19,18 @@ import {
 	IconButton,
 	Snackbar,
 	Alert,
+	Card,
+	CardContent,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
+
+import '@fontsource/roboto'; 
+import '@fontsource/playfair-display'; 
+import '@fontsource/open-sans'; 
+import '@fontsource/lora'; 
+import '@fontsource/montserrat';
 
 const UserManagement = ({ SetUserArray }) => {
 	const [users, setUsers] = useState([]);
@@ -65,7 +73,6 @@ const UserManagement = ({ SetUserArray }) => {
 					tweet_total: user.tweet_count,
 				}))
 			);
-            
 		} catch (error) {
 			console.error("Error fetching users:", error);
 			setSnackbarMessage("Error fetching users");
@@ -156,95 +163,164 @@ const UserManagement = ({ SetUserArray }) => {
 	const handleSnackbarClose = () => {
 		setSnackbarOpen(false);
 	};
-
+	function formatNumber(num) {
+		if (num >= 1000000) {
+			return (num / 1000000).toFixed(1) + "M";
+		} else if (num >= 1000) {
+			return (num / 1000).toFixed(1) + "K";
+		} else {
+			return num.toString();
+		}
+	}
 
 	return (
 		<Box
 			sx={{
+				height: "60vh",
+				overflowY: "auto",
+				width: "100%",
 				padding: "2rem",
-				backgroundColor: "#f4f4f4",
-				borderRadius: "8px",
-				boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-				maxWidth: "1200px",
+				// background: "linear-gradient(135deg, #000000, #434343)",
+				borderRadius: "12px",
+				boxShadow: "0 8px 16px rgba(0, 0, 0, 0.5)",
+				maxWidth: "100%",
 				margin: "auto",
+				"&::-webkit-scrollbar": {
+					display: "none",
+				},
+				"-ms-overflow-style": "none",
+				"scrollbar-width": "none",
+				transition: "background 0.3s ease-in-out",
 			}}
 		>
-			<Typography variant="h4" component="h1" gutterBottom align="center">
-				<b>User Management</b>
-			</Typography>
 			<Box
 				sx={{
-					overflowX: "auto",
-					marginBottom: "1rem",
+					overflowY: "auto",
+					maxHeight: "70vh",
+					"&::-webkit-scrollbar": {
+						display: "none",
+					},
+					"-ms-overflow-style": "none",
+					"scrollbar-width": "none",
 				}}
 			>
-				<TableContainer
+				<Box
 					sx={{
-						backgroundColor: "white",
-						borderRadius: "8px",
-						boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+						display: "grid",
+						gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+						gap: "1rem",
 					}}
 				>
-					<Table>
-						<TableHead>
-							<TableRow>
-								<TableCell sx={{ textAlign: "center" }}>ID</TableCell>
-								<TableCell sx={{ textAlign: "center" }}>Username</TableCell>
-								<TableCell sx={{ textAlign: "center" }}>Followers</TableCell>
-								<TableCell sx={{ textAlign: "center" }}>Joined Date</TableCell>
-								<TableCell sx={{ textAlign: "center" }}>Actions</TableCell>
-								<TableCell sx={{ textAlign: "center" }}>Total Tweets</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{users.map((user) => (
-								<TableRow key={user.user_id}>
-									<TableCell sx={{ textAlign: "center" }}>
-										{user.user_id}
-									</TableCell>
-									<TableCell sx={{ textAlign: "center" }}>
-										{user.username}
-									</TableCell>
-									<TableCell sx={{ textAlign: "center" }}>
-										{user.followers_count || 0}
-									</TableCell>
-									<TableCell sx={{ textAlign: "center" }}>
-										{user.joined_date.substring(0, 10)}
-									</TableCell>
-									<TableCell sx={{ textAlign: "center" }}>
-										<IconButton onClick={() => handleOpenDialog("edit", user)}>
-											<EditIcon color="primary" />
-										</IconButton>
-										<IconButton onClick={() => handleDeleteUser(user.user_id)}>
-											<DeleteIcon color="error" />
-										</IconButton>
-									</TableCell>
-									<TableCell sx={{ textAlign: "center" }}>
-										{user.tweet_total}
-									</TableCell>
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>{" "}
-				</TableContainer>{" "}
-			</Box>{" "}
-			<Box
-				sx={{
-					display: "flex",
-					justifyContent: "center",
-					marginTop: "1rem",
-				}}
-			>
-				<Button
-					variant="contained"
-					color="primary"
-					onClick={() => handleOpenDialog("add")}
+					{users.map((user) => (
+						<Card
+							key={user.user_id}
+							sx={{
+								background: "linear-gradient(135deg, #000000, #434343)",
+								color: "#f5f5f5",
+								borderRadius: "12px",
+								boxShadow: "0 4px 8px rgba(0, 0, 0, 0.4)",
+								transition: "transform 0.3s ease-in-out",
+								"&:hover": {
+									transform: "scale(1.03)",
+								},
+							}}
+						>
+							<CardContent>
+								<Typography
+									variant="h6"
+									component="div"
+									sx={{
+										fontWeight: "bold",
+										fontFamily: "'Playfair Display', serif",
+									}}
+								>
+									@{user.username}
+								</Typography>
+								<Typography
+									sx={{
+										mb: 1.5,
+										fontFamily: "'Open Sans', sans-serif",
+										color: "grey",
+									}}
+								>
+									ID: {user.user_id}
+								</Typography>
+								<Typography sx={{ mb: 1.5, fontFamily: "'Lora', serif" }}>
+									Followers:{" "}
+									{user.followers_count
+										? formatNumber(user.followers_count)
+										: 0}
+								</Typography>
+								<Typography
+									sx={{ mb: 1.5, fontFamily: "'Montserrat', sans-serif" }}
+								>
+									Joined Date: {user.joined_date.substring(0, 10)}
+								</Typography>
+								<Typography sx={{ fontFamily: "'Roboto', sans-serif" }}>
+									Total Tweets: {user.tweet_total ? user.tweet_total : 0}
+								</Typography>
+							</CardContent>
+							<Box
+								sx={{
+									display: "flex",
+									justifyContent: "space-between",
+									p: 1,
+									borderTop: "1px solid #333",
+								}}
+							>
+								<IconButton
+									onClick={() => handleOpenDialog("edit", user)}
+									aria-label="Edit"
+									sx={{
+										color: "#8f8582",
+										"&:hover": {
+											color: "#ffff",
+										},
+									}}
+								>
+									<EditIcon />
+								</IconButton>
+								<IconButton
+									onClick={() => handleDeleteUser(user.user_id)}
+									aria-label="Delete"
+									sx={{
+										color: "#730d1c",
+										"&:hover": {
+											color: "#cc141e",
+										},
+									}}
+								>
+									<DeleteIcon />
+								</IconButton>
+							</Box>
+						</Card>
+					))}
+				</Box>
+				<Box
+					sx={{
+						display: "flex",
+						justifyContent: "flex-end",
+						marginTop: "1rem",
+					}}
 				>
-					Add User
-				</Button>
+					<IconButton
+						variant="contained"
+						color="primary"
+						onClick={() => handleOpenDialog("add")}
+						sx={{
+							backgroundColor: "white",
+							width: "3rem",
+							height: "3rem",
+							fontSize: "2rem",
+						}}
+					>
+						<AddIcon sx={{ fontSize: "2rem" }} />
+					</IconButton>
+				</Box>
 			</Box>
+
 			<Dialog open={showDialog} onClose={handleCloseDialog}>
-				<DialogTitle>
+				<DialogTitle sx={{ color: "#6d28d9" }}>
 					{dialogType === "edit" ? "Edit User" : "Add User"}
 				</DialogTitle>
 				<DialogContent>
@@ -256,6 +332,7 @@ const UserManagement = ({ SetUserArray }) => {
 						fullWidth
 						value={username}
 						onChange={(e) => setUsername(e.target.value)}
+						sx={{ color: "#333" }}
 					/>
 					<TextField
 						margin="dense"
@@ -264,6 +341,7 @@ const UserManagement = ({ SetUserArray }) => {
 						fullWidth
 						value={followersCount}
 						onChange={(e) => setFollowersCount(e.target.value)}
+						sx={{ color: "#333" }}
 					/>
 					<TextField
 						margin="dense"
@@ -272,13 +350,19 @@ const UserManagement = ({ SetUserArray }) => {
 						fullWidth
 						value={joinedDate}
 						onChange={(e) => setJoinedDate(e.target.value)}
+						sx={{ color: "#333" }}
 					/>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleCloseDialog}>Cancel</Button>
-					<Button onClick={handleSubmit}>Submit</Button>
+					<Button onClick={handleCloseDialog} sx={{ color: "#d946ef" }}>
+						Cancel
+					</Button>
+					<Button onClick={handleSubmit} sx={{ color: "#6d28d9" }}>
+						Submit
+					</Button>
 				</DialogActions>
 			</Dialog>
+
 			<Snackbar
 				open={snackbarOpen}
 				autoHideDuration={6000}
@@ -295,4 +379,5 @@ const UserManagement = ({ SetUserArray }) => {
 		</Box>
 	);
 };
+
 export default UserManagement;

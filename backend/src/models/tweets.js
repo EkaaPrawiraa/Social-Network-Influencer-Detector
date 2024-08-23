@@ -5,6 +5,10 @@ const tweets = {
         const [result] = await db.query('SELECT * FROM Tweets');
         return result;
     },
+    async getAllwithUser() {
+        const [result] = await db.query('SELECT Tweets.*, Users.username AS username FROM Tweets JOIN Users ON Tweets.user_id = Users.user_id');
+        return result;
+    },
 
     async getById(tweet_id) {
         const [result] = await db.query('SELECT * FROM Tweets WHERE tweet_id = ?', [tweet_id]);
@@ -18,10 +22,10 @@ const tweets = {
         return result;
     },
 
-    async create(tweet_id,user_id, content, likes_count, retweets_count,replied_to_tweet_id,created_at) {
+    async create(user_id, content, likes_count, retweets_count,replied_to_tweet_id,created_at) {
         const [result] = await db.query(
-            'INSERT INTO Tweets (tweet_id,user_id, content, likes_count, retweets_count,replied_to_tweet_id,created_at) VALUES (?, ?, ?, ?,?,?,?)',
-            [tweet_id,user_id, content, likes_count, retweets_count,replied_to_tweet_id,created_at]
+            'INSERT INTO Tweets (user_id, content, likes_count, retweets_count,replied_to_tweet_id,created_at) VALUES (?, ?, ?,?,?,?)',
+            [user_id, content, likes_count, retweets_count,replied_to_tweet_id,created_at]
         );
         
         return this.getById(result.insertId);
